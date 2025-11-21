@@ -27,9 +27,9 @@ These appear in the run logs during `pipelines.ingest_full` and `pipelines.inges
 ## 2. TF‑IDF Feature Model Results
 
 ### Sample Model
-- Vocabulary size: 80,000  
-- min_df: 3  
-- Uses extra stopwords: enabled  
+- Vocabulary size: 250,000  
+- min_df: 5  
+- Extra stopwords: enabled (extra_stopwords_topdf=500)
 - Output paths:
   - `data/models/tfidf_sample/`
   - `data/processed/features_sample/`
@@ -103,7 +103,7 @@ Generated outputs per batch:
 - `papers_per_year.png`
 - `doi_rate_by_year.csv`
 - `doi_rate_by_year.png`
-- category distribution PNGs
+- top_categories.png
 
 ### Full Streaming
 A weekly full-snapshot streaming simulator:
