@@ -137,8 +137,8 @@ Highly imbalanced distribution impacts analytics and model behavior.
 ### 7.1 Batch Ingestion (JSONL → Parquet)
 Processes raw metadata:
 
-- Normalize whitespace, remove problematic LaTeX  
-- Standardize timestamps  
+- Normalize whitespace; abstracts may contain LaTeX but are used as-is for TF-IDF (no full LaTeX stripping)
+- Standardizes timestamps by extracting publication year from update_date
 - Extract primary categories  
 - Filter incomplete abstracts  
 - Write Parquet partitioned by year/category
