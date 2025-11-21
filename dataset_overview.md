@@ -1,7 +1,7 @@
 # Dataset Overview
 
 This project is built on top of the **arXiv Dataset** provided by *Cornell University* and hosted on **Kaggle**.  
-The dataset contains metadata for **1.7 million+ scholarly papers** across physics, computer science, mathematics, statistics, electrical engineering, quantitative biology, economics, and related STEM fields.
+The dataset contains metadata for **1.7M–2.8M+ scholarly papers** across physics, computer science, mathematics, statistics, electrical engineering, quantitative biology, economics, and related STEM fields.
 
 Dataset link:  
 ➡️ https://www.kaggle.com/datasets/Cornell-University/arxiv
