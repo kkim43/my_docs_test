@@ -206,6 +206,3 @@ The Sparxiv project successfully:
 - Executes 10 sophisticated Spark SQL analytics
 - Supports both full streaming + sample streaming modes
 - Generates all required CSVs, metrics, and visualizations
-
-This results.md file documents all artifacts and result structures produced by the system.
-
