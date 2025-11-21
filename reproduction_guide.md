@@ -27,7 +27,7 @@ Main packages:
 - numpy
 - matplotlib
 - requests (for Kaggle downloader)
-- fastparquet / pyarrow (optional)
+- pyarrow (for Parquet support)
 
 ---
 
@@ -176,7 +176,7 @@ print(results)
 ## 3.3.4 Run Complex Analytics Only
 
 ```
-python -m engine.complex.complex_queries     --parquet data/processed/arxiv_full     --outdir reports/analysis_full
+python -m pipelines.complex_full
 ```
 
 This generates:
@@ -191,7 +191,7 @@ for all 10 analytical modules.
 To simulate incoming daily arXiv updates:
 
 ```
-python -m streaming.sample_stream --trigger-seconds 5
+python -m streaming.sample_stream
 ```
 
 Drop files into:
