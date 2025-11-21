@@ -2,7 +2,6 @@
 
 This guide provides step-by-step instructions to fully reproduce the Sparxiv pipeline:
 from raw arXiv metadata → ingestion → TF‑IDF training → search → analytics.  
-All steps reflect the real project structure and exact commands used by the system.
 
 ---
 
