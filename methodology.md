@@ -277,6 +277,3 @@ Sparxiv implements a complete Spark‑powered pipeline:
 - enables fast exact cosine retrieval  
 - performs deep SQL/analytics over the metadata  
 - can operate in streaming or batch mode  
-
-This methodology reflects the **actual implementation** of the system with no hypothetical components or missing steps.
-
