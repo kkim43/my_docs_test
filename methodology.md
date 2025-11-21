@@ -1,8 +1,5 @@
 # Methodology
 
-This document explains the full methodology underlying **Sparxiv**, an end‑to‑end scalable ingestion, transformation, feature engineering, search, and analytics pipeline built on the arXiv metadata corpus.  
-All components described here come directly from the project’s actual codebase (`engine/`, `pipelines/`, `streaming/`) and reflect the real execution flow.
-
 ---
 
 # 1. System Architecture Overview
