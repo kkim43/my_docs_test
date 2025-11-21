@@ -199,7 +199,7 @@ reports/streaming_full/
 ## 7. Summary
 
 The Sparxiv project successfully:
-- Processes a full ~2.4M arXiv dataset
+- Processes a full arXiv dataset
 - Normalizes + enriches metadata
 - Computes feature embeddings
 - Performs exact cosine similarity search
