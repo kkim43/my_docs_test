@@ -1,9 +1,5 @@
 # Methodology
 
-This document explains the full internal workflow of **Sparxiv**, including ingestion, feature engineering, similarity search, complex analytics, and streaming architecture.
-
----
-
 # 1. System Architecture Overview
 
 Sparxiv follows a multi-stage Spark + Flask architecture.
