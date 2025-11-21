@@ -1,6 +1,5 @@
 # Methodology
 
----
 
 # 1. System Architecture Overview
 
