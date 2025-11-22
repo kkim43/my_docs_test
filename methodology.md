@@ -160,25 +160,16 @@ Pipeline stages:
 2. Transformation  
 3. TF-IDF training  
 4. SQL analytics  
-5. Streaming (optional)  
+5. Streaming 
 6. CSR index building  
 7. Web-based search  
 
 Designed for reproducibility with a single-command execution approach.
 
----
-
-# 8. Limitations
-
-- TF-IDF lacks deep semantic modeling  
-- CSR index requires memory proportional to dataset size  
-- Streaming pipeline is stateless  
-- Version history not deeply modeled  
-- Scientific vocabulary may dominate token statistics  
 
 ---
 
-# 9. Summary
+# 8. Summary
 
 Sparxiv demonstrates a complete Spark-based workflow:
 
