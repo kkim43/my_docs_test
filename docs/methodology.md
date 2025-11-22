@@ -3,237 +3,132 @@
 # 1. System Architecture Overview
 
 ## 1.1 High-Level Architecture
-
-![High-Level Architecture](../docs/Sparxiv_SysArchitecture_Simple.webp)
-
----
+![High-Level Architecture](./Sparxiv_SysArchitecture_Simple.webp)
 
 ## 1.2 Detailed System Architecture
-
-![Detailed System Architecture](../docs/Sparxiv_SysArchitecture.webp)
+![Detailed System Architecture](./Sparxiv_SysArchitecture.webp)
 
 ---
 
 # 2. Data Ingestion & Preprocessing (Structured APIs)
 
 ## 2.1 Ingestion Workflow
-
-Raw arXiv metadata (JSON/JSONL) is loaded with Spark DataFrame APIs:
-
 ```python
 df_raw = spark.read.json(input_path)
 ```
 
-SparkSession is created using a tuned helper:
-
-```python
-spark = get_spark("ccda_project")
-```
-
-The ingestion stage performs:
-
-- Schema inference  
-- Multi-line JSON handling  
-- Extraction of relevant fields  
-- Initial cleanup and normalization  
-
----
-
-## 2.2 Preprocessing & Transformations
-
-Representative transformation:
-
+## 2.2 Transformations
 ```python
 df = df.withColumn("title_clean", clean_text(F.col("title")))
 ```
 
-Transformations include:
-
-- **Text Normalization:** lowercase, punctuation cleanup  
-- **Category Extraction:** primary + category list  
-- **Author Normalization**  
-- **Temporal Parsing:** derive year  
-- **Feature Augmentation:** abstract length, author count, DOI flag  
-- **Filtering of low-quality entries**
-
----
-
 ## 2.3 Storage Format
-
-Outputs are stored as:
-
-- **Parquet**, partitioned by `year`  
-- **Zstandard (ZSTD)** compression  
-
 ```python
 df.write.mode("overwrite").parquet(out_path)
 ```
 
 ---
 
-# 3. Exploratory Analysis & Spark SQL Layer
+# 3. Spark SQL Analytics
 
-Representative SQL computation:
+Below are the full-analysis outputs.
 
-```python
-df.createOrReplaceTempView("papers")
-spark.sql("SELECT year, COUNT(*) FROM papers GROUP BY year")
-```
+### Abstract Length vs Versions (Deciles)
+![Abstract Length Decile](../reports/analysis_full/complex_abstractlen_versions_by_decile.png)
 
-Analytical modules include:
+### Abstract Length vs Versions (Correlation)
+![Correlation](../reports/analysis_full/complex_abstractlen_versions_correlation.png)
 
-- Category co-occurrence  
-- Author collaboration  
-- Topic rise/decline  
-- Lexical richness  
-- DOI/version analysis  
-- Abstract length trends  
-- Category stability  
+### Author Category Migration
+![Author Category Migration](../reports/analysis_full/complex_author_category_migration_top20.png)
 
-Example figure:
+### Author Collaboration Over Time
+![Author Collaboration](../reports/analysis_full/complex_author_collab_over_time_simple.png)
 
-![Category Co-occurrence](../reports/analysis_full/complex_category_cooccurrence_top.png)
+### Author Lifecycle
+![Author Lifecycle](../reports/analysis_full/complex_author_lifecycle_scatter.png)
+
+### Avg Token Count by Year
+![Avg Token Count](../reports/analysis_full/complex_avg_token_count_by_year.png)
+
+### Category Cooccurrence
+![Category Cooccurrence](../reports/analysis_full/complex_category_cooccurrence_top.png)
+
+### Category Versions Avg
+![Category Versions](../reports/analysis_full/complex_category_versions_avg_top30.png)
+
+### Declining Topics
+![Declining Topics](../reports/analysis_full/complex_declining_topics_top20.png)
+
+### DOI Versions Correlation
+![DOI Versions](../reports/analysis_full/complex_doi_versions_correlation.png)
+
+### DOI vs Versions Group
+![DOI vs Versions](../reports/analysis_full/complex_doi_vs_versions_group.png)
+
+### Lexical Richness by Year
+![Lexical Richness](../reports/analysis_full/complex_lexical_richness_by_year.png)
+
+### Rising Topics
+![Rising Topics](../reports/analysis_full/complex_rising_topics_top20.png)
 
 ---
 
-# 4. Machine Learning Pipeline (Spark MLlib TF-IDF)
+# 4. Standard Queries (Full Dataset)
 
-## 4.1 Pipeline Stages
+### Abstract Length Histogram
+![Abstract Length Hist](../reports/standard_queries_full/abstract_length_hist.png)
+
+### Category Pareto
+![Category Pareto](../reports/standard_queries_full/category_pareto.png)
+
+### Category-Year Heatmap
+![Category-Year Matrix](../reports/standard_queries_full/heatmap_category_year.png)
+
+### DOI Rate by Year
+![DOI Rate](../reports/standard_queries_full/doi_rate_by_year.png)
+
+### Papers per Year
+![Papers per Year](../reports/standard_queries_full/papers_per_year.png)
+
+### Top Authors
+![Top Authors](../reports/standard_queries_full/top_authors.png)
+
+### Top Categories
+![Top Categories](../reports/standard_queries_full/top_categories.png)
+
+### Version Count Histogram
+![Version Count](../reports/standard_queries_full/version_count_hist.png)
+
+---
+
+# 5. ML Pipeline
 
 ```python
 pipeline = Pipeline(stages=[tokenizer, stopwords, vectorizer, idf, normalizer])
 ```
 
-Stages include:
-
-- RegexTokenizer  
-- StopWordsRemover  
-- CountVectorizer  
-- IDF  
-- L2 Normalizer  
-
 ---
 
-## 4.2 Rationale for TF-IDF
+# 6. Similarity Search
 
-TF-IDF is:
-
-- Deterministic  
-- Interpretable  
-- CPU-friendly  
-- Fully supported by MLlib  
-- Highly reproducible  
-
----
-
-## 4.3 Parameter Choices
-
-Vocabulary size and stopword policies are dataset-dependent.
-
-Example training snippet:
-
-```python
-model = pipeline.fit(df)
-```
-
----
-
-# 5. Similarity Search Methodology
-
-## 5.1 Query Vectorization
-
-```python
-query_vec = pipeline_model.transform(query_df).select("features")
-```
-
----
-
-## 5.2 Sample Mode (In-Memory Search)
-
-Representative similarity computation:
-
+### Sample Mode
 ```python
 score = dot(q.toArray(), v.toArray())
 ```
 
-- Load TF-IDF vectors into memory  
-- Compute cosine similarity in Python  
-- No Spark during inference  
-
----
-
-## 5.3 Full Mode (CSR-Based Offline Index)
-
-### Offline Phase
-
-```python
-csr_data.append((indices, values))
-```
-
-Steps:
-
-- Read Parquet via PyArrow  
-- Reconstruct SparseVectors  
-- Build CSR matrix  
-- Store metadata arrays  
-
-### Query Phase
-
+### Full Mode (CSR)
 ```python
 scores = csr_matrix @ query_dense
 ```
 
-Fast inference using matrix–vector multiplication.
-
 ---
 
-# 6. Structured Streaming Methodology
+# 7. Streaming
 
 ```python
 stream_df = spark.readStream.schema(schema).json(stream_path)
 ```
 
-Workflow:
-
-1. Watch directory for new JSONL  
-2. Apply `transform_all()`  
-3. Compute stats (year, categories, DOI)  
-4. Write per-microbatch results  
-
-Example visualization:
-
-![Papers per Year](../reports/streaming_sample/20251212/papers_per_year.png)
-
----
-
-# 7. End-to-End Pipeline Integration
-
-Executed with:
-
-```bash
-bash run.sh
-```
-
-Pipeline includes:
-
-1. Ingestion  
-2. Transformation  
-3. TF-IDF training  
-4. SQL analytics  
-5. Streaming  
-6. CSR index building  
-7. Web search interface  
-
----
-
-# 8. Summary
-
-Sparxiv implements:
-
-- **Structured APIs** for ingestion  
-- **Spark SQL** for analytics  
-- **MLlib TF-IDF** for modeling  
-- **Structured Streaming** for real-time ingestion  
-- **CSR & in-memory indices** for efficient search  
-
-This version adds representative code snippets directly tied to the actual implementation.
+Example:
+![Streaming Example](../reports/streaming_sample/20251212/papers_per_year.png)
