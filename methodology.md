@@ -1,11 +1,4 @@
-# Sparxiv Methodology
-## Cloud Computing for Data Analysis — ITCS 6190/8190, Fall 2025
-
-Sparxiv is a large-scale scientific document analysis and recommendation system built using **Apache Spark**.  
-The project integrates **Structured APIs, Spark SQL, Streaming, and MLlib**, satisfying all requirements of the ITCS 6190/8190 course project.  
-It processes arXiv metadata, builds TF-IDF representations, generates analytical output, and supports efficient similarity-based search through both in-memory and CSR-based indices.
-
----
+# Methodology
 
 # 1. System Architecture Overview
 
@@ -13,29 +6,12 @@ It processes arXiv metadata, builds TF-IDF representations, generates analytical
 
 ![High-Level Architecture](./Sparxiv_SysArchitecture_Simple.webp)
 
-The system is divided into four major layers:
-
-- **Ingestion Layer** – raw JSON → Spark DataFrame → cleaned Parquet  
-- **Analytics Layer** – Spark SQL for complex analytical modules  
-- **ML Layer** – TF-IDF modeling using Spark MLlib  
-- **Search Layer** – similarity search via in-memory & CSR-based indices  
-- **Streaming Layer** – Structured Streaming processing simulated weekly updates  
-- **Application Layer** – lightweight search and analytics interface
-
 ---
 
 ## 1.2 Detailed System Architecture
 
 ![Detailed System Architecture](./Sparxiv_SysArchitecture.webp)
 
-This diagram expands the core pipeline:
-
-- Shared SparkSession  
-- Batch and streaming transformations via `transform_all()`  
-- ML training pipeline  
-- Offline CSR index builder  
-- Flask-based UI  
-- Result reporting infrastructure  
 
 ---
 
