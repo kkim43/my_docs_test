@@ -15,34 +15,14 @@ Some records contain missing authors, categories, or malformed abstracts (LaTeX 
 
 ---
 
-## 2. Methodological Limitations
+## 2. Pipeline & System Limitations
 
-### 2.1 TF-IDF is non-semantic
-TF-IDF cannot model synonyms, context, or scientific terminology relationships.  
-As a result, similarity is strictly vocabulary-driven and may miss deeper conceptual connections.
-
-### 2.2 Exact cosine similarity is computationally expensive
-Even with CSR acceleration, exact Top-K similarity scales linearly with dataset size and does not use Approximate Nearest Neighbor (ANN) indexing.  
-This approach is suitable for demonstration but not for large-scale real-time deployment.
-
----
-
-## 3. Pipeline & System Limitations
-
-### 3.1 Single-machine resource constraints
+### 2.1 Single-machine resource constraints
 Training TF-IDF and running complex SQL analyses on the full arXiv dataset requires significant memory and disk spill space.  
 These limitations reflect hardware constraints rather than Spark’s capability on distributed clusters.
 
-### 3.2 Streaming is a controlled simulation
+### 2.2 Streaming is a controlled simulation
 The streaming workflow processes synthetic weekly batches rather than live external data, which limits realism but satisfies the course requirement to demonstrate Structured Streaming.
-
----
-
-## 4. Evaluation Limitations
-
-### 4.1 No quantitative evaluation
-The system does not include precision/recall, user feedback loops, or comparison to embedding-based baselines.  
-Similarity quality is therefore demonstrated only through case studies, not measurable benchmarks.
 
 ---
 
