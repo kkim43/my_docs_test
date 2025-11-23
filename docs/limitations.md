@@ -1,4 +1,4 @@
-# Limitations (Condensed Version)
+# Limitations
 
 This system demonstrates a complete Spark-based recommender pipeline, but several structural limitations remain due to the nature of arXiv metadata and the constraints of scalable, single-machine execution.
 
