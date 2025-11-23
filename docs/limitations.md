@@ -23,9 +23,3 @@ These limitations reflect hardware constraints rather than Spark’s capability 
 
 ### 2.2 Streaming is a controlled simulation
 The streaming workflow processes synthetic weekly batches rather than live external data, which limits realism but satisfies the course requirement to demonstrate Structured Streaming.
-
----
-
-## Summary
-These limitations arise from dataset constraints, the lexical modeling choice, and the single-machine execution environment.  
-Despite them, the system fulfills the intended purpose: demonstrating an end-to-end Spark pipeline combining ingestion, preprocessing, analytics, MLlib, streaming, and search at scale.
